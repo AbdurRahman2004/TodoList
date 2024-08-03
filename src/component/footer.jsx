@@ -5,8 +5,8 @@ function Footer() {
         <footer>
 
 
-            Copyright &copy;
-            {new  Date().getFullYear()}
+            <p>Copyright Abdur&copy; 
+            {new  Date().getFullYear()}</p>
         </footer>
     </div>)
 }
