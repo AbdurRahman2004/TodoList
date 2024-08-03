@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+import { DeleteOutlined } from '@ant-design/icons';
+import "./Style.css"
+
+
 
 function TaskList() {
     const [items, setItems] = useState("");
@@ -10,8 +14,10 @@ function TaskList() {
     }
 
     function addItems() {
-        setTodo(prev => ([...prev, { text: items, struck: false }]));
-        setItems("");
+        if (items.trim()) { // Check if input is not empty or just whitespace
+            setTodo(prev => ([...prev, { text: items, struck: false }]));
+            setItems("");
+        }
     }
 
     function strike(index) {
@@ -35,10 +41,9 @@ function TaskList() {
                     onChange={handleChange} 
                     value={items} 
                 />
-                <button onClick={addItems}>
+                <button variant="contained" onClick={addItems}>
                     <span>Add</span>
                 </button>
-
                 <ul>
                     {todo.map((item, index) => (
                         <li 
@@ -48,9 +53,9 @@ function TaskList() {
                             style={{ textDecoration: item.struck ? 'line-through' : 'none' }}
                         >
                             {item.text}  
-                            <button onClick={() => del(index)}> 
-                                <span>Delete</span>
-                            </button> 
+                            
+                                <DeleteOutlined  className='btn' onClick={(e) => { e.stopPropagation(); del(index); }} />
+                             
                         </li>
                     ))}
                 </ul>
