@@ -1,63 +1,37 @@
-import React, { useState } from 'react';
-import { DeleteOutlined } from '@ant-design/icons';
+import React from 'react';
+import ListItems from './listItems';
 import "./Style.css"
 
 
 
-function TaskList() {
-    const [items, setItems] = useState("");
-    const [todo, setTodo] = useState([]);
-
-    function handleChange(event) {
-        const value = event.target.value;
-        setItems(value);
-    }
-
-    function addItems() {
-        if (items.trim()) { // Check if input is not empty or just whitespace
-            setTodo(prev => ([...prev, { text: items, struck: false }]));
-            setItems("");
-        }
-    }
-
-    function strike(index) {
-        setTodo(prev => 
-            prev.map((item, i) => 
-                i === index ? { ...item, struck: !item.struck } : item
-            )
-        );
-    }
-
-    function del(index) {
-        setTodo(prev => prev.filter((_, i) => i !== index));
-    }
+function TaskList(props) {
+    
 
     return (
         <div className="container">
             <div className="form">
-                <input 
-                    type="text" 
-                    placeholder="Write Your Task Here" 
-                    onChange={handleChange} 
-                    value={items} 
+                <input
+                    type="text"
+                    placeholder="Write Your Task Here"
+                    onChange={props.handleChange}
+                    value={props.items}
                 />
-                <button variant="contained" onClick={addItems}>
+                <button variant="contained" onClick={props.addItems}>
                     <span>Add</span>
                 </button>
-                <ul>
-                    {todo.map((item, index) => (
-                        <li 
-                            key={index} 
-                            id={index} 
-                            onClick={() => strike(index)} 
+                <ul style={{textAlign : 'center',marginRight:'30px'}}>
+                    {(props.todo.length > 0)?props.todo.map((item, index) => (
+                        <ListItems
+                            key={index}
+                            id={index}
+                            index={index}
+                            item = {item}
+                            onClick={() => props.strike(index)}
                             style={{ textDecoration: item.struck ? 'line-through' : 'none' }}
-                        >
-                            {item.text}  
+                            del={props.del}
+                        />
                             
-                                <DeleteOutlined  className='btn' onClick={(e) => { e.stopPropagation(); del(index); }} />
-                             
-                        </li>
-                    ))}
+                    )) : <p >Set A work to accomplish!</p>}
                 </ul>
             </div>
         </div>
